@@ -10,6 +10,7 @@ export interface Burger {
   name: string;
   description: string;
   price: number;
+  image?: string;
 }
 
 export interface PropsBurger {

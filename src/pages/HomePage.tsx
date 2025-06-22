@@ -5,8 +5,15 @@ import { BurgerCard } from "../components/BurgerCard";
 
 export const HomePage = () => {
   const [burgers, setBurges] = useState<Burger[]>([]);
-  console.log("🚀 ~ HomePage ~ burgers:", burgers);
   const [loading, setyLoading] = useState<boolean>(true);
+
+  const imageMap: Record<string, string> = {
+    "La Montañesa": "montanesa.png",
+    "El Ranchero": "ranchero.png",
+    "Veggie Mediterránea": "mediterraneo.png",
+    "Doble Búfalo": "bufalo.png",
+    "Mar y Tierra": "mar_tierra.png",
+  };
 
   useEffect(() => {
     const fetchBurgers = async () => {
@@ -29,7 +36,15 @@ export const HomePage = () => {
       {loading ? (
         <p>Cargando menu...</p>
       ) : (
-        burgers.map((burger) => <BurgerCard key={burger.id} burger={burger} />)
+        burgers.map((burger) => (
+          <BurgerCard
+            key={burger.id}
+            burger={{
+              ...burger,
+              image: imageMap[burger.name] || "default.png",
+            }}
+          />
+        ))
       )}
     </div>
   );
