@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "the-new-burguer-station-back-jp.up.railway.app",
+  baseURL: "https://the-new-burguer-station-back-jp.up.railway.app",
 });
 
 api.interceptors.request.use((config) => {
