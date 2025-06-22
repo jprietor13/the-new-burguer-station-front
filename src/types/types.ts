@@ -15,5 +15,10 @@ export interface Burger {
 
 export interface PropsBurger {
   burger: Burger;
-  onSelect?: (burger: Burger) => void;
+}
+
+export interface Option {
+  id: number;
+  name: string;
+  price: number;
 }

@@ -1,8 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import type { PropsBurger } from "../types/types";
 
-export const BurgerCard = ({ burger, onSelect }: PropsBurger) => {
+export const BurgerCard = ({ burger }: PropsBurger) => {
+  const navigate = useNavigate();
+
   return (
-    <div onClick={() => onSelect?.(burger)}>
+    <div onClick={() => navigate(`/order/${burger.id}`)}>
       <img
         src={`/images/burgers/${burger.image}`}
         alt={burger.name}
