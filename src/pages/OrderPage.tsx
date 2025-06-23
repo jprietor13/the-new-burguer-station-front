@@ -12,7 +12,7 @@ export const OrderPage = () => {
   const [sauces, setSauces] = useState<string[]>([]);
   const [side, setSide] = useState("");
   const [drink, setDrink] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [availableExtras, setAvailableExtras] = useState<Option[]>([]);
   const [availableSauces, setAvailableSauces] = useState<Option[]>([]);
   const [availableSides, setAvailableSides] = useState<Option[]>([]);
@@ -31,23 +31,69 @@ export const OrderPage = () => {
           ]);
 
         setBurger(burgerRes.data);
-        setAvailableExtras(extrasRes.data as Option[]);
-        setAvailableSauces(saucesRes.data as Option[]);
-        setAvailableSides(sidesRes.data as Option[]);
-        setAvailableDrinks(drinksRes.data as Option[]);
+        setAvailableExtras(extrasRes.data);
+        setAvailableSauces(saucesRes.data);
+        setAvailableSides(sidesRes.data);
+        setAvailableDrinks(drinksRes.data);
       } catch (err) {
         console.error("Error cargando datos del pedido", err);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    if (!burger) return;
+
+    const getPrice = (selected: string[], options: Option[]) =>
+      selected.reduce((acc, name) => {
+        const found = options.find((opt) => opt.name === name);
+        return acc + (found?.price || 0);
+      }, 0);
+
+    const sidePrice = availableSides.find((s) => s.name === side)?.price || 0;
+    const drinkPrice =
+      availableDrinks.find((d) => d.name === drink)?.price || 0;
+
+    const extrasPrice = getPrice(extras, availableExtras);
+    const saucesPrice = getPrice(sauces, availableSauces);
+
+    const total =
+      burger.price + extrasPrice + saucesPrice + sidePrice + drinkPrice;
+    setTotalPrice(total);
+  }, [
+    burger,
+    extras,
+    sauces,
+    side,
+    drink,
+    availableExtras,
+    availableSauces,
+    availableSides,
+    availableDrinks,
+  ]);
+
+  const toggleSelect = (
+    value: string,
+    selected: string[],
+    setSelected: React.Dispatch<React.SetStateAction<string[]>>,
+    max: number
+  ) => {
+    if (selected.includes(value)) {
+      setSelected(selected.filter((item) => item !== value));
+    } else {
+      if (selected.length >= max) {
+        alert(`Solo puede seleccionar hasta ${max} opciones`);
+        return;
+      }
+      setSelected([...selected, value]);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!burger || !side || !drink) {
-      alert("Completa todos los campos");
+      alert("Complete todos los campos");
       return;
     }
 
@@ -57,7 +103,7 @@ export const OrderPage = () => {
       sauces,
       side,
       drink,
-      totalPrice: burger.price + 2.5 + extras.length * 1.5,
+      totalPrice: parseFloat(totalPrice.toFixed(2)),
     };
 
     try {
@@ -70,8 +116,7 @@ export const OrderPage = () => {
     }
   };
 
-  if (loading) return <p>Cargando...</p>;
-  if (!burger) return <p>Hamburguesa no encontrada</p>;
+  if (!burger) return <p>Cargando...</p>;
 
   return (
     <div>
@@ -82,45 +127,31 @@ export const OrderPage = () => {
       </p>
 
       <div>
-        <h3>Extras</h3>
+        <h3>Extras (máx 3)</h3>
         {availableExtras.map((extra) => (
-          <label key={extra.id} style={{ display: "block" }}>
+          <label key={extra.name}>
             <input
               type="checkbox"
               value={extra.name}
               checked={extras.includes(extra.name)}
-              onChange={(e) => {
-                const value = e.target.value;
-                setExtras((prev) =>
-                  prev.includes(value)
-                    ? prev.filter((x) => x !== value)
-                    : [...prev, value]
-                );
-              }}
+              onChange={() => toggleSelect(extra.name, extras, setExtras, 3)}
             />
-            {extra.name}
+            {extra.name} (+${extra.price})
           </label>
         ))}
       </div>
 
       <div>
-        <h3>Salsas</h3>
+        <h3>Salsas (máx 2)</h3>
         {availableSauces.map((sauce) => (
-          <label>
+          <label key={sauce.name}>
             <input
               type="checkbox"
-              value={sauce.id}
+              value={sauce.name}
               checked={sauces.includes(sauce.name)}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSauces((prev) =>
-                  prev.includes(value)
-                    ? prev.filter((x) => x !== value)
-                    : [...prev, value]
-                );
-              }}
+              onChange={() => toggleSelect(sauce.name, sauces, setSauces, 2)}
             />
-            {sauce.name}
+            {sauce.name} {sauce.price > 0 ? `(+${sauce.price})` : "(Gratis)"}
           </label>
         ))}
       </div>
@@ -129,8 +160,10 @@ export const OrderPage = () => {
         <h3>Acompañamiento</h3>
         <select value={side} onChange={(e) => setSide(e.target.value)}>
           <option value="">Selecciona...</option>
-          {availableSides.map((s) => (
-            <option key={s.id}>{s.name}</option>
+          {availableSides.map((availableSide) => (
+            <option key={availableSide.name} value={availableSide.name}>
+              {availableSide.name} (+${availableSide.price})
+            </option>
           ))}
         </select>
       </div>
@@ -140,10 +173,16 @@ export const OrderPage = () => {
         <select value={drink} onChange={(e) => setDrink(e.target.value)}>
           <option value="">Selecciona...</option>
           {availableDrinks.map((d) => (
-            <option key={d.id}>{d.name}</option>
+            <option key={d.name} value={d.name}>
+              {d.name} (+${d.price})
+            </option>
           ))}
         </select>
       </div>
+
+      <p>
+        <strong>Total: ${totalPrice.toFixed(2)}</strong>
+      </p>
 
       <button onClick={handleSubmit}>Confirmar Pedido</button>
     </div>
