@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 import axios, { AxiosError } from "axios";
@@ -54,6 +54,11 @@ export const LoginPage = () => {
         <div>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <button type="submit">Ingresar</button>
+        </div>
+        <div>
+          <Link to="/register">
+            <p>Registrarse</p>
+          </Link>
         </div>
       </form>
     </div>

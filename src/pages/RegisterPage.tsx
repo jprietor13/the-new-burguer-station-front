@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 
 export const RegisterPage = () => {
@@ -63,6 +63,7 @@ export const RegisterPage = () => {
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit">Registrarme</button>
+        <Link to="/login">Volver</Link>
       </form>
     </div>
   );
