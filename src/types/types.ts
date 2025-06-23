@@ -22,3 +22,16 @@ export interface Option {
   name: string;
   price: number;
 }
+
+export interface Order {
+  id: number;
+  burger: {
+    name: string;
+  };
+  extras: string[];
+  sauces: string[];
+  side: string;
+  drink: string;
+  totalPrice: number;
+  createdAt: string;
+}
