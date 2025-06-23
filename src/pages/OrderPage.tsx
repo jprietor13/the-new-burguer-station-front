@@ -49,7 +49,7 @@ export const OrderPage = () => {
     const getPrice = (selected: string[], options: Option[]) =>
       selected.reduce((acc, name) => {
         const found = options.find((opt) => opt.name === name);
-        return acc + (found?.price || 0);
+        return acc + Number(found?.price || 0);
       }, 0);
 
     const sidePrice = availableSides.find((s) => s.name === side)?.price || 0;
@@ -60,7 +60,12 @@ export const OrderPage = () => {
     const saucesPrice = getPrice(sauces, availableSauces);
 
     const total =
-      burger.price + extrasPrice + saucesPrice + sidePrice + drinkPrice;
+      Number(burger.price || 0) +
+      Number(extrasPrice) +
+      Number(saucesPrice) +
+      Number(sidePrice) +
+      Number(drinkPrice);
+
     setTotalPrice(total);
   }, [
     burger,
@@ -103,7 +108,7 @@ export const OrderPage = () => {
       sauces,
       side,
       drink,
-      totalPrice: parseFloat(totalPrice.toFixed(2)),
+      totalPrice: Number(totalPrice).toFixed(2),
     };
 
     try {
@@ -123,7 +128,7 @@ export const OrderPage = () => {
       <h2>Pedido: {burger.name}</h2>
       <p>{burger.description}</p>
       <p>
-        <strong>${burger.price.toFixed(2)}</strong>
+        <strong>${Number(burger.price).toFixed(2)}</strong>
       </p>
 
       <div>
@@ -181,7 +186,7 @@ export const OrderPage = () => {
       </div>
 
       <p>
-        <strong>Total: ${totalPrice.toFixed(2)}</strong>
+        <strong>Total: ${Number(totalPrice).toFixed(2)}</strong>
       </p>
 
       <button onClick={handleSubmit}>Confirmar Pedido</button>

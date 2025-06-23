@@ -22,7 +22,9 @@ export const LoginPage = () => {
       );
       const token = response.data.access_token;
       login(token);
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 100);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       setError(error.response?.data?.message || "Error al iniciar sesión");
