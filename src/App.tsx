@@ -4,17 +4,25 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { HomePage } from "./pages/HomePage";
 import { OrderPage } from "./pages/OrderPage";
 import { MyOrdersPage } from "./pages/MyOrdersPage";
+import { Navbar } from "./components/Navbar";
+
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+  const hideNavbar = location.pathname === "/login";
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/order/:id" element={<OrderPage />} />
-      <Route path="/my-orders" element={<MyOrdersPage />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <>
+      {!hideNavbar && <Navbar />}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/order/:id" element={<OrderPage />} />
+        <Route path="/my-orders" element={<MyOrdersPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </>
   );
 }
 
