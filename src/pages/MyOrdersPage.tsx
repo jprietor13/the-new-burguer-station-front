@@ -23,14 +23,15 @@ export const MyOrdersPage = () => {
 
   if (loading)
     return (
-      <div className="text-center mt-10 text-yellow-600 font-semibold animate-pulse">
-        Cargando sus pedidos...
+      <div className="flex justify-center items-center h-40 pt-20">
+        <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
+
   if (orders.length === 0)
     return (
-      <div className="text-center mt-10 text-gray-600">
-        Aún no has realizado ningún pedido. puede regresar al Home para realizar
+      <div className="text-center mt-10 text-gray-600 pt-20">
+        Aún no ha realizado ningún pedido. puede regresar al Home para realizar
         un pedido
       </div>
     );
