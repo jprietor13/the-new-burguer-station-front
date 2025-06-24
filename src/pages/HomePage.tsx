@@ -31,21 +31,26 @@ export const HomePage = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Menú de Hamburguesas</h2>
+    <section className="min-h-screen bg-yellow-50 px-4 py-6">
+      <h2 className="text-3xl font-bold text-center text-yellow-700 mb-8">
+        🍔 Nuestro Menú de Hamburguesas
+      </h2>
+
       {loading ? (
-        <p>Cargando menu...</p>
+        <p className="text-center text-gray-600">Cargando menú...</p>
       ) : (
-        burgers.map((burger) => (
-          <BurgerCard
-            key={burger.id}
-            burger={{
-              ...burger,
-              image: imageMap[burger.name] || "default.png",
-            }}
-          />
-        ))
+        <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {burgers.map((burger) => (
+            <BurgerCard
+              key={burger.id}
+              burger={{
+                ...burger,
+                image: imageMap[burger.name] || "default.png",
+              }}
+            />
+          ))}
+        </article>
       )}
-    </div>
+    </section>
   );
 };

@@ -21,38 +21,58 @@ export const MyOrdersPage = () => {
     fetchOrders();
   }, []);
 
-  if (loading) return <p>Cargando sus pedidos...</p>;
-  if (orders.length === 0) return <p>Aún no ha realizado ningun pedido.</p>;
+  if (loading)
+    return (
+      <div className="text-center mt-10 text-yellow-600 font-semibold animate-pulse">
+        Cargando tus pedidos...
+      </div>
+    );
+  if (orders.length === 0)
+    return (
+      <div className="text-center mt-10 text-gray-600">
+        Aún no has realizado ningún pedido. puede regresar al Home para realizar
+        un pedido
+      </div>
+    );
 
   return (
-    <div>
-      <h2>Mis Pedidos</h2>
+    <section className="max-w-2xl mx-auto p-4">
+      <h2 className="text-2xl font-bold text-center text-yellow-600 mb-6">
+        🧾 Mis Pedidos
+      </h2>
+
       {orders.map((order) => (
-        <div key={order.id}>
-          <h3>{order.burger.name}</h3>
-          <p>
+        <article
+          key={order.id}
+          className="bg-white shadow-md rounded-lg p-4 mb-6 border-l-4 border-yellow-500"
+        >
+          <h3 className="text-xl font-semibold text-yellow-800 mb-2">
+            {order.burger.name}
+          </h3>
+
+          <p className="mb-1">
             <strong>Extras:</strong>{" "}
             {order.extras.length > 0 ? order.extras.join(", ") : "Ninguno"}
           </p>
-          <p>
+          <p className="mb-1">
             <strong>Salsas:</strong>{" "}
             {order.sauces.length > 0 ? order.sauces.join(", ") : "Ninguna"}
           </p>
-          <p>
+          <p className="mb-1">
             <strong>Acompañamiento:</strong> {order.side}
           </p>
-          <p>
+          <p className="mb-1">
             <strong>Bebida:</strong> {order.drink}
           </p>
-          <p>
+          <p className="mb-1 text-green-600 font-semibold">
             <strong>Total:</strong> ${Number(order.totalPrice).toFixed(2)}
           </p>
-          <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
-        </div>
+          <p className="text-sm text-gray-500">
+            <strong>Fecha de pedido:</strong>{" "}
+            {new Date(order.createdAt).toLocaleString()}
+          </p>
+        </article>
       ))}
-      <button onClick={() => (window.location.href = "/")}>
-        Volver al Home
-      </button>
-    </div>
+    </section>
   );
 };
