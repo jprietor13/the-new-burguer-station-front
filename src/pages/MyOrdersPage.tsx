@@ -45,7 +45,7 @@ export const MyOrdersPage = () => {
             <strong>Bebida:</strong> {order.drink}
           </p>
           <p>
-            <strong>Total:</strong> ${order.totalPrice.toFixed(2)}
+            <strong>Total:</strong> ${Number(order.totalPrice).toFixed(2)}
           </p>
           <p>Fecha: {new Date(order.createdAt).toLocaleString()}</p>
         </div>
