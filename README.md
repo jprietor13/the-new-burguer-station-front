@@ -1,54 +1,102 @@
-# React + TypeScript + Vite
+# 🍔 The New Burger Station - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el repositorio frontend de **The New Burger Station**, una aplicación hecha con **React**, **Vite**, **TailwindCSS** y **TypeScript**. Esta aplicación permite a los usuarios:
 
-Currently, two official plugins are available:
+- Autenticarse (registro/login) usando JWT.
+- Ver hamburguesas disponibles.
+- Personalizar pedidos (extras, salsas, bebidas, acompañamiento).
+- Visualizar sus pedidos anteriores.
+- Recibir confirmaciones por correo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🧪 Stack Tecnológico
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React + Vite**
+- **TypeScript**
+- **React Router**
+- **Tailwind CSS**
+- **React Hot Toast**
+- **Axios**
+- **Deploy:** Vercel
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+---
+
+## ⚙️ Instalación local
+
+### 1. Clona el repositorio
+
+```bash
+git clone https://github.com/jprietor13/the-new-burguer-station-front.git
+cd the-new-burguer-station-front
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Instala las dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
+# o
+yarn
 ```
+
+### 3. Archivos importantes
+
+- `src/api/api.ts`: instancia de Axios que añade el token automáticamente.
+- `src/context/AuthContext.tsx`: contexto global de autenticación.
+- `src/pages`: vistas principales (Login, Registro, Home, Orden, Pedidos).
+- `src/components`: Navbar, BurgerCard, Footer, etc.
+- `src/hooks`: useHomePage, useLoginPage, useOrderPage y useRegisterPage(controlan la logica de los datos para renderizar en sus respectivos componentes)
+
+---
+
+## 🚀 Comandos útiles
+
+```bash
+npm run dev        # Inicia en local
+npm run build      # Genera el build de producción
+npm run preview    # Previsualiza el build
+```
+
+---
+
+## 🖼️ Imágenes locales
+
+Las imágenes de hamburguesas están en `/public/images/burgers/`. Se asignan por nombre desde el `imageMap` en `HomePage.tsx`.
+
+---
+
+## 🧠 Lógica de negocio
+
+- El usuario puede seleccionar hasta 3 **extras** y 2 **salsas**.
+- La aplicación calcula automáticamente el **precio total**.
+- El pedido se envía al backend vía `/orders` con token.
+- Al confirmar, se muestra un **toast** y se redirige al Home.
+
+---
+
+## 🔄 Rutas
+
+- `/login` → Página de inicio de sesión
+- `/register` → Página de registro
+- `/` → Listado de hamburguesas
+- `/order/:id` → Personalizar hamburguesa
+- `/my-orders` → Historial de pedidos
+
+---
+
+## 🌐 Deploy
+
+Desplegado en **Vercel**:  
+🔗 https://the-new-burguer-station-front.vercel.app/
+
+Para rutas relativas se usa `HashRouter` en producción para evitar errores de recarga.
+
+---
+
+## ✍️ Autor
+
+Creado por **Juan Prieto Rodríguez**  
+📫 [jp1739@gmail.com](mailto:jp1739@gmail.com)  
+💼 Frontend & Fullstack Developer
+
+---
