@@ -31,8 +31,8 @@ export const HomePage = () => {
   }, []);
 
   return (
-    <section className="min-h-screen bg-yellow-50 px-4 py-6">
-      <h2 className="text-3xl font-bold text-center text-yellow-700 mb-8">
+    <section className="min-h-screen bg-yellow-50 px-4">
+      <h2 className="text-3xl font-bold text-center text-yellow-700 mb-8 pt-20">
         🍔 Nuestro Menú de Hamburguesas
       </h2>
 

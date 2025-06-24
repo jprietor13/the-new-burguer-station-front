@@ -131,7 +131,7 @@ export const OrderPage = () => {
     );
 
   return (
-    <section className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <section className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg pt-20">
       <h2 className="text-2xl font-bold text-center text-red-600 mb-4">
         Personalice su "{burger.name}"
       </h2>
