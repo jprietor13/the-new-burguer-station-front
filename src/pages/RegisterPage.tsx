@@ -1,36 +1,17 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { useRegisterPage } from "../hooks/useRegisterPage";
 
 export const RegisterPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (password !== confirm) {
-      setError("Las contraseñas no coinciden");
-      return;
-    }
-
-    try {
-      await axios.post(
-        "https://the-new-burguer-station-back-jp.up.railway.app/auth/register",
-        { email, password }
-      );
-      toast.success("¡Registro exitoso!");
-      navigate("/login");
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>;
-      setError(error.response?.data?.message || "Error al iniciar sesión");
-    }
-  };
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirm,
+    setConfirm,
+    error,
+    handleSubmit,
+  } = useRegisterPage();
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 via-orange-100 to-yellow-200 px-4">
